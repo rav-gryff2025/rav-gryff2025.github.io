@@ -80,16 +80,35 @@
       font-family: "Oswald", sans-serif;
       font-size: 2rem;
       color: #5c4942;
-      margin: 3rem 0 1rem;
+      margin: 1.5rem 0 0.5rem;
       padding-bottom: 0.5rem;
-      border-bottom: 2px solid #5c4942;
+      display: inline-block;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(6 * (160px + 1rem) - 1rem); /* Ширина шести марок с учетом gap */
+      height: 2px;
+      background-color: #5c4942;
+    }
+
+    .section-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 1rem;
     }
 
     .gallery {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 1rem;
+      padding: 0.5rem;
       overflow: hidden;
     }
 
@@ -208,12 +227,20 @@
         max-height: 200px;
         max-width: 140px;
       }
+      
+      .section-title::after {
+        width: calc(6 * (140px + 1rem) - 1rem);
+      }
     }
 
     @media (max-width: 1024px) {
       .stamp {
         max-height: 180px;
         max-width: 120px;
+      }
+      
+      .section-title::after {
+        width: calc(6 * (120px + 1rem) - 1rem);
       }
     }
 
@@ -231,7 +258,11 @@
       
       .section-title {
         font-size: 1.7rem;
-        margin: 2rem 0 1rem;
+        margin: 1.2rem 0 0.5rem;
+      }
+      
+      .section-title::after {
+        width: calc(6 * (100px + 1rem) - 1rem);
       }
     }
 
@@ -247,6 +278,11 @@
       
       .section-title {
         font-size: 1.5rem;
+        margin: 1rem 0 0.5rem;
+      }
+      
+      .section-title::after {
+        width: calc(6 * (80px + 0.8rem) - 0.8rem);
       }
     }
 
@@ -262,6 +298,11 @@
       
       .section-title {
         font-size: 1.3rem;
+        margin: 0.8rem 0 0.5rem;
+      }
+      
+      .section-title::after {
+        width: calc(6 * (70px + 0.6rem) - 0.6rem);
       }
     }
   </style>
@@ -297,7 +338,7 @@
     // Данные для разделов и марок
     const sections = [
       {
-        title: "Криминальный авторитет",
+        title: "«Криминальный авторитет»",
         images: [
           { src: "авторитет _грэйс.png", caption: "Грэйс Грейлэнд, Пуффендуй, 5 курс" },
           { src: "авторитет _гюго.png", caption: "Gugo Helwell, Главный лекарь" },
@@ -309,7 +350,7 @@
         ]
       },
       {
-        title: "Административный стул",
+        title: "«Административный стул»",
         images: [
           { src: "стул_грэйс.png", caption: "Грэйс Грейлэнд, Пуффендуй, 5 курс" },
           { src: "стул_гюго.png", caption: "Gugo Helwell, Главный лекарь" },
@@ -319,7 +360,7 @@
         ]
       },
       {
-        title: "Звезная личность",
+        title: "«Звёзная личнась»",
         images: [
           { src: "личнась_грэйс.png", caption: "Грэйс Грейлэнд, Пуффендуй, 5 курс" },
           { src: "личнась_гюго.png", caption: "Gugo Helwell, Главный лекарь" },
@@ -328,7 +369,7 @@
         ]
       },
       {
-        title: "Джентельмен удачи",
+        title: "«Джентельмен удачи»",
         images: [
           { src: "джентльмен_грэйс.png", caption: "Грэйс Грейлэнд, Пуффендуй, 5 курс" },
           { src: "джентльмен_гюго.png", caption: "Gugo Helwell, Главный лекарь" },
@@ -338,9 +379,9 @@
         ]
       },
       {
-        title: "Портье",
+        title: "«Портье»",
         images: [
-          { src: "портtn_кевин.png", caption: "Кевин Хоукинс, Гриффиндор, 3 курс" },
+          { src: "портет_кевин.png", caption: "Кевин Хоукинс, Гриффиндор, 3 курс" },
           { src: "портье_грэйс.png", caption: "Грэйс Грейлэнд, Пуффендуй, 5 курс" },
           { src: "портье_гюго.png", caption: "Gugo Helwell, Главный лекарь" },
           { src: "портье_мерида.png", caption: "Мерида Морграфт, Когтевран, 2 курс" },
@@ -390,19 +431,25 @@
       sectionsContainer.innerHTML = '';
       
       sections.forEach(section => {
+        // Создаем контейнер для раздела
+        const sectionContainer = document.createElement('div');
+        sectionContainer.className = 'section-container';
+        
         // Создаем заголовок раздела
         const titleElement = document.createElement('h2');
         titleElement.className = 'section-title';
         titleElement.textContent = section.title;
-        sectionsContainer.appendChild(titleElement);
+        sectionContainer.appendChild(titleElement);
         
         // Создаем контейнер для галереи раздела
         const galleryContainer = document.createElement('div');
         galleryContainer.className = 'gallery';
-        sectionsContainer.appendChild(galleryContainer);
+        sectionContainer.appendChild(galleryContainer);
         
         // Рендерим галерею для этого раздела
         renderGallery(galleryContainer, section.images);
+        
+        sectionsContainer.appendChild(sectionContainer);
       });
     }
 
